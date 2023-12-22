@@ -11,7 +11,6 @@ const router = require('./routers/router');
 const app = express();
 const cookieParser = require('cookie-parser');
 const { verifyAccessToken } = require('./middlewares/verifyTokens');
-const { clear } = require('google-auth-library/build/src/auth/envDetect');
 
 // Middlewares
 app.use(morgan('dev'));
@@ -21,13 +20,13 @@ app.use(cors({
     methods: "GET,PUT,POST,DELETE",
     credentials: true
 }));
-app.use(cookieParser(process.env.SESSION_SECRET));
+app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // Routers
 app.use('/auth', router.authRouter);
 app.get('/hi', verifyAccessToken, (req, res, next) => {
     console.log('inside the controller');
-    res.json({});
+    res.end();
 });
 
 // Error Handler
