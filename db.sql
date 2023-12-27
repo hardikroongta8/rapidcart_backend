@@ -1,9 +1,9 @@
-create table sellers(
-	id bigserial primary key,
-	store_name varchar(255) not null,
-	email varchar(255) not null,
-	pickup_address varchar(500) not null,
-	mobile_number char(10) not null check (mobile_number ~ '^\d+$')
+create table users(
+	id varchar(40) check(id ~ '^\d+$') primary key,
+	firstname varchar(50) not null,
+	lastname varchar(50),
+	email varchar(100) not null,
+	addresses varchar(500)[] not null default array[]::varchar(500)[]
 );
 
 create table products(
@@ -13,15 +13,7 @@ create table products(
 	quantity int not null,
 	images varchar(500)[] not null default array[]::varchar(500)[],
 	description text,
-	seller_id bigint references sellers(id) not null
-);
-
-create table users(
-	id varchar(40) check(id ~ '^\d+$') primary key,
-	firstname varchar(50) not null,
-	lastname varchar(50),
-	email varchar(100) not null,
-	addresses varchar(500)[] not null default array[]::varchar(500)[]
+	seller_id varchar(40) references users(id) not null
 );
 
 create table wishlists(
